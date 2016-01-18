@@ -29,16 +29,30 @@ function server(name) {
 
 const AppComponent = Vue.extend(App);
 
-const app = new AppComponent({
-  el: '#app',
-  data() {
-    return {
-      servers: servers()
-    }
-    
+const b = document.getElementById('play');
+
+let app;
+
+b.addEventListener('click', () => {
+  if (b.innerText === 'Play') {
+    app = new AppComponent({
+      el: '#app',
+      data() {
+        return {
+          servers: servers()
+        }
+        
+      }
+    });
+
+    setInterval(() => {
+      app.servers = servers();
+    });
+    b.innerHTML = 'Pause';
+  } else {
+    app.$destroy();
+    b.innerHTML = 'Play'
   }
+
 });
 
-setInterval(() => {
-  app.servers = servers();
-});
